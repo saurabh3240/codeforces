@@ -20,7 +20,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
-#include<unordered_map>
 #include <string>
 #include <cassert>
  
@@ -79,13 +78,31 @@ ll gcd(ll a,ll b)
 	}
 	return a;
 }
-char s[105];
-int n ;
-
+int arr[200005];
+int sum[200005];
 int main()
 {
+	int n,k;
+	gi(n);
+	gi(k);
 	
-	cin>>s;
-	
+	rep(i,n)
+	{
+		gi(arr[i+1]);
+		sum[i+1]= sum[i]+arr[i+1];
+	}
+	int minsum = MOD;
+	int minsumind = -1;
+	rep(i,n-k+1)
+	{	
+		//cout<<i<<endl;
+		int x = sum[i+k]-sum[i];
+		if(x<minsum)
+		{
+			minsum = x;
+			minsumind = i+1;
+		}
+	}
+	cout<<minsumind<<endl;
 }
 

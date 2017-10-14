@@ -79,13 +79,46 @@ ll gcd(ll a,ll b)
 	}
 	return a;
 }
-char s[105];
-int n ;
+ll hashA[200005];
+string a,b;
+ll hashB[200005];
+ll pow31[200005];
+bool isequal(int sA,int eA,int sB,int eB)
+{
+	for(int i=sA,j=sB;i<=eA;i++,j++)
+	{
+		if(a[i-1]!=b[j-1])
+			return false;
+	}
+	return true;
+}
+
 
 int main()
 {
-	
-	cin>>s;
-	
-}
+	int n;
+	gi(n);
+	int arr[n]; 
+	rep(i,n)	
+		gi(arr[i]);
+	int ans =0;
+	int prev = arr[0];
+	int cnt =1;
+	forup(i,1,n)
+	{	
+		if(arr[i]<=prev)
+		{
+			ans = max(ans,cnt);
+			prev = arr[i];
+			cnt =1;
+		}
+		else
+		{
+			cnt++;
+			prev = arr[i];
+		}
+	}
+	ans = max(ans,cnt);
+	pin(ans);
+}	
 

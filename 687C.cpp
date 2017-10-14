@@ -79,13 +79,60 @@ ll gcd(ll a,ll b)
 	}
 	return a;
 }
-char s[105];
-int n ;
 
+int arr[2][502];
 int main()
-{
+{	
+	arr[1][0]=1;
+
+	int n,k;
+	gi(n);
+	gi(k);
+	int v[n];
+	rep(i,n)
+	{
+		gi(v[i]);
+	}
+	sort(v,v+n);
+	rep(i,n)
+	{
+		
+		int x = i%2;
+		int y = 1-x;
+		rep(j,k+1)
+		{
+			if(arr[y][j]==1&&j+v[i]<=k)
+			{
+				arr[x][j+v[i]]=1;
+			}
+			if(arr[y][j]==1)
+			{
+				arr[x][j]=1;
+			}	
+		}
+		rep(j,k+1)
+		{
+			if(arr[x][j]==1)
+				pis(j);	
+		
+		}	
+		cout<<endl;
 	
-	cin>>s;
-	
+	}
+	vector<int> ans;
+	int x = (n-1)%2;
+	rep(i,k+1)
+	{
+		if(arr[x][i])
+		{
+			ans.pb(i);
+		}
+	}
+	pin(ans.size());
+	rep(i,ans.size())
+	{
+		pis(ans[i]);
+	}
+
 }
 
