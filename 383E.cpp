@@ -20,7 +20,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
-#include<unordered_map>
 #include <string>
 #include <cassert>
  
@@ -42,7 +41,7 @@ typedef pair<int,int> pii;
 #define gl(x) scanf("%lld",&x)
 #define gd(x) scanf("%lf",&x)
 #define gs(x) scanf("%s",x)
-#define printvi(x) rep(i,x.size()) pis(x) 
+ 
 #define pis(x) printf("%d ",x)
 #define pin(x) printf("%d\n",x)
 #define pls(x) printf("%lld ",x)
@@ -59,96 +58,65 @@ typedef pair<int,int> pii;
 #define limit 10000005
 #define INF 1000000000
 #define ull unsigned long long
+#define BL 24
 using namespace std;
-ull mod_pow(ull num, ull pow, ull mod)
-{
-    ull test,n = num;
-    for(test = 1; pow; pow >>= 1)
-    {
-        if (pow & 1)
-            test = ((test % mod) * (n % mod)) % mod;
-        n = ((n % mod) * (n % mod)) % mod;
-    }
-    return test; /* note this is potentially lossy */
-}
-//while((getchar())!='\n'); //buffer clear
-ll gcd(ll a,ll b)
-{	ll r;
-	while(b)
-	{	r= a%b;a = b; b = r;
-	}
-	return a;
-}
+int gmask =0;
 
+int dp[(1<<BL)+5];
+map<int,int> mp;
+int calc(int x)
+{	
+	return ((1<<BL) -1)^x;
+}		
+int get_hash(string x)
+{
+	
+	int hashed=0;
+	rep(i,x.size())
+	{
+		hashed|=1<<x[i]-'a';
+	}
+	return hashed;
+}
 int main()
 {	
-	int n,m;
-	gi(n);
-	gi(m);
 	
-	map<string,int> mp;
-	vector<int> v;
-	vector<string>input;
-	string s;
-	string a,b;
+	int n;
+	gi(n);
+	//cout<<"here"<<endl;
+	string s[n];
+	int hash_val[n];
 	
 	rep(i,n)
-	{
-		cin>>s;
-		mp[s]=i;
-		input.pb(s);
+	{	cin>>s[i];
+		rep(j,s[i].size())
+			mp[s[i][j]-'a']++;
+		hash_val[i]=get_hash(s[i]);
+		dp[hash_val[i]]++;
 	}
-	rep(i,m)
+
+	rep(i,BL)
 	{
-		cin>>a>>b;
-		int j = 0;
-		j = j|(1<<mp[a]);
-		j = j|(1<<mp[b]);
-		v.pb(j);
+		if(mp[i])
+			gmask|=1<<i;
 	}
-	int j =0;
-	int lim = 1<<n;
-	int mxans= -1;
-	int mxcnt =0;
-	rep(j,lim)
+	for(int i=0;i<BL;i++)
 	{
-		int x = j;
-	//	cout<<x<<endl;
-		int flag =1;
-		rep(i,m)
+		for(int j =0;j<(1<<BL);j++)
 		{
-			if((v[i]&x)==v[i])
-			{
-				flag =0;
-				break;		
-			}
-		}
-		if(flag)
-		{
-			int cnt  = __builtin_popcount(x);
-			if(cnt>mxcnt)
-			{
-				mxans= x;
-				mxcnt = cnt;
-			}
-		}
-		
+			if(j&(1<<i))
+				dp[j]+=dp[j^(1<<i)];
+		}	
 	}
-	cout<<mxcnt<<endl;
-	vector<string> vans;
-	int jj =0;
-	while(mxans)
+	ll ans =0ll;
+	//cout<<gmask<<endl;	
+	rep(i,1<<BL)
 	{
-		if(mxans&1)
-		{
-			vans.pb(input[jj]);
-		}
-		mxans>>=1;
-		jj++;
+		int y = ((1<<BL) -1)^i;
+		ans^=(n-dp[y])*(n-dp[y])	;
 	}
-	sort(vans.begin(),vans.end());
-	rep(i,vans.size())
-	{
-		cout<<vans[i]<<endl;
-	}
+	cout<<ans<<endl;
+	
+	
 }
+

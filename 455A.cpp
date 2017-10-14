@@ -42,7 +42,7 @@ typedef pair<int,int> pii;
 #define gl(x) scanf("%lld",&x)
 #define gd(x) scanf("%lf",&x)
 #define gs(x) scanf("%s",x)
-#define printvi(x) rep(i,x.size()) pis(x) 
+ 
 #define pis(x) printf("%d ",x)
 #define pin(x) printf("%d\n",x)
 #define pls(x) printf("%lld ",x)
@@ -79,76 +79,24 @@ ll gcd(ll a,ll b)
 	}
 	return a;
 }
-
+ll arr[100004];	
+ll dp[100004];
 int main()
-{	
-	int n,m;
+{		
+	int n;
 	gi(n);
-	gi(m);
-	
-	map<string,int> mp;
-	vector<int> v;
-	vector<string>input;
-	string s;
-	string a,b;
-	
+	ll x;
 	rep(i,n)
 	{
-		cin>>s;
-		mp[s]=i;
-		input.pb(s);
+		gl(x);
+		arr[x]++;
 	}
-	rep(i,m)
+	dp[1] =  arr[1]	;
+	for(int i=2;i<=100001;i++)
 	{
-		cin>>a>>b;
-		int j = 0;
-		j = j|(1<<mp[a]);
-		j = j|(1<<mp[b]);
-		v.pb(j);
+		dp[i] = max(dp[i-2]+arr[i]*i,dp[i-1]);
 	}
-	int j =0;
-	int lim = 1<<n;
-	int mxans= -1;
-	int mxcnt =0;
-	rep(j,lim)
-	{
-		int x = j;
-	//	cout<<x<<endl;
-		int flag =1;
-		rep(i,m)
-		{
-			if((v[i]&x)==v[i])
-			{
-				flag =0;
-				break;		
-			}
-		}
-		if(flag)
-		{
-			int cnt  = __builtin_popcount(x);
-			if(cnt>mxcnt)
-			{
-				mxans= x;
-				mxcnt = cnt;
-			}
-		}
-		
-	}
-	cout<<mxcnt<<endl;
-	vector<string> vans;
-	int jj =0;
-	while(mxans)
-	{
-		if(mxans&1)
-		{
-			vans.pb(input[jj]);
-		}
-		mxans>>=1;
-		jj++;
-	}
-	sort(vans.begin(),vans.end());
-	rep(i,vans.size())
-	{
-		cout<<vans[i]<<endl;
-	}
+	cout<<max(dp[100000],dp[100001])<<endl;
+
 }
+
