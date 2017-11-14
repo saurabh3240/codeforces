@@ -85,54 +85,26 @@ ll gcd(ll a,ll b)
     return a;
 }
 
-vector<int> divsior[100005];
-int dp[100005];
+
 int main()
-{   int x=0;
-    forup(i,2,100005)
+{
+    int x,y,a,b;
+    gi(x);
+    gi(y);
+    gi(a);
+    gi(b);
+    vector<pair<int,int> > v;
+    forup(i,a==b?a+1:a,x+1)
     {
-        if(divsior[i].size()==0)
+        forup(j,b,min(y,i-1)+1)
         {
-            for(int j=i+i;j<100005;j+=i)
-            {    divsior[j].pb(i);
-                x++;
-            }
-
+            v.pb(make_pair(i,j));
         }
     }
-    //pin(x);
-
-    int n;
-    gi(n);
-    std::vector<int> v;
-    rep(i,n)
-    {   int x;
-        gi(x);
-        v.pb(x);
-        dp[x]=1;
+    sort(v.begin(),v.end());
+    pin(v.size());
+    rep(i,v.size())
+    {  pis(v[i].fs);
+        pin(v[i].sc);
     }
-    forup(i,0,n)
-    {
-    //    pin(v[i]);
-        rep(j,divsior[v[i]].size())
-        {
-            int d = divsior[v[i]][j];
-
-            dp[v[i]]=max(dp[v[i]],1+dp[d]);
-        }
-        rep(j,divsior[v[i]].size())
-        {
-            int d = divsior[v[i]][j];
-            dp[d]= max(dp[d],dp[v[i]]);
-            //pis(d);pin(dp[d]);
-        }
-
-    }
-    int ans =-1;
-    rep(i,100005)
-    {
-        ans=  max(ans,dp[i]);
-    }
-    pin(ans);
-
 }
