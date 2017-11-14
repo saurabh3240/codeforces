@@ -20,29 +20,28 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
-#include<unordered_map>
 #include <string>
 #include <cassert>
- 
+
 using namespace std;
 typedef long long LL;
 typedef pair<int,int> pii;
- 
+
 #define forup(i,a,b) for(int i=a; i<b; ++i)
 #define fordn(i,a,b) for(int i=a; i>b; --i)
 #define rep(i,a) for(int i=0; i<a; ++i)
- 
+
 #define dforup(i,a,b) for(i=a; i<b; ++i)
 #define dfordn(i,a,b) for(i=a; i>b; --i)
 #define drep(i,a) for(i=0; i<a; ++i)
- 
+
 #define slenn(s,n) for(n=0; s[n]!=13 and s[n]!=0; ++n);s[n]=0
- 
+
 #define gi(x) scanf("%d",&x)
 #define gl(x) scanf("%lld",&x)
 #define gd(x) scanf("%lf",&x)
 #define gs(x) scanf("%s",x)
- 
+
 #define pis(x) printf("%d ",x)
 #define pin(x) printf("%d\n",x)
 #define pls(x) printf("%lld ",x)
@@ -50,7 +49,7 @@ typedef pair<int,int> pii;
 #define pds(x) printf("%.12f ",x)
 #define pdn(x) printf("%.12f\n",x)
 #define pnl() printf("\n")
- 
+
 #define fs first
 #define sc second
 #define ll long long
@@ -60,55 +59,21 @@ typedef pair<int,int> pii;
 #define INF 1000000000
 #define ull unsigned long long
 using namespace std;
-ull mod_pow(ull num, ull pow, ull mod)
-{
-    ull test,n = num;
-    for(test = 1; pow; pow >>= 1)
-    {
-        if (pow & 1)
-            test = ((test % mod) * (n % mod)) % mod;
-        n = ((n % mod) * (n % mod)) % mod;
-    }
-    return test; /* note this is potentially lossy */
-}
-//while((getchar())!='\n'); //buffer clear
-ll gcd(ll a,ll b)
-{	ll r;
-	while(b)
-	{	r= a%b;a = b; b = r;
-	}
-	return a;
-}
+vector<int> edges[1000005];
+int visited[1000005];
+double p=1;
+double d = 0;
+double ans = 0;
 
 int main()
-{	
-
-	ll node[2][4];
-	ll n;
-	gl(n);
-	node[1][0]=1ll;
-	node[1][1]=0ll;
-	node[1][2]=0ll;
-	node[1][3]=0ll;
-	rep(i,n)
-	{
-		int x = i%2;
-		int y = 1-x;
-
-		node[x][0] =node[y][1]+node[y][2]+node[y][3];
-		node[x][0]%=MOD;
-		
-		node[x][1] =node[y][2]+node[y][3]+node[y][0];
-		node[x][1]%=MOD;
-		
-		node[x][2] =node[y][3]+node[y][0]+node[y][1];
-		node[x][2]%=MOD;
-		
-		node[x][3] =node[y][0]+node[y][1]+node[y][2];
-		node[x][3]%=MOD	;
-	}
-	cout<<node[(n-1)%2][0]<<endl;
-
-	
+{
+    int n;
+    gi(n);
+    char s[n+1];
+    rep(i,n)
+    {
+        s[i]=i%4+'a';
+    }
+    s[n]='\0';
+    cout<<s<<endl;
 }
-
