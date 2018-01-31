@@ -20,29 +20,28 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
-#include<unordered_map>
 #include <string>
 #include <cassert>
- 
+
 using namespace std;
 typedef long long LL;
 typedef pair<int,int> pii;
- 
+
 #define forup(i,a,b) for(int i=a; i<b; ++i)
 #define fordn(i,a,b) for(int i=a; i>b; --i)
 #define rep(i,a) for(int i=0; i<a; ++i)
- 
+
 #define dforup(i,a,b) for(i=a; i<b; ++i)
 #define dfordn(i,a,b) for(i=a; i>b; --i)
 #define drep(i,a) for(i=0; i<a; ++i)
- 
+
 #define slenn(s,n) for(n=0; s[n]!=13 and s[n]!=0; ++n);s[n]=0
- 
+
 #define gi(x) scanf("%d",&x)
 #define gl(x) scanf("%lld",&x)
 #define gd(x) scanf("%lf",&x)
 #define gs(x) scanf("%s",x)
- 
+
 #define pis(x) printf("%d ",x)
 #define pin(x) printf("%d\n",x)
 #define pls(x) printf("%lld ",x)
@@ -50,7 +49,7 @@ typedef pair<int,int> pii;
 #define pds(x) printf("%.12f ",x)
 #define pdn(x) printf("%.12f\n",x)
 #define pnl() printf("\n")
- 
+
 #define fs first
 #define sc second
 #define ll long long
@@ -79,46 +78,35 @@ ll gcd(ll a,ll b)
 	}
 	return a;
 }
-ll hashA[200005];
-string a,b;
-ll hashB[200005];
-ll pow31[200005];
-bool isequal(int sA,int eA,int sB,int eB)
-{
-	for(int i=sA,j=sB;i<=eA;i++,j++)
-	{
-		if(a[i-1]!=b[j-1])
-			return false;
-	}
-	return true;
-}
-
+int dp[102][8];
 
 int main()
 {
-	int n;
-	gi(n);
-	int arr[n]; 
-	rep(i,n)	
-		gi(arr[i]);
-	int ans =0;
-	int prev = arr[0];
-	int cnt =1;
-	forup(i,1,n)
-	{	
-		if(arr[i]<=prev)
-		{
-			ans = max(ans,cnt);
-			prev = arr[i];
-			cnt =1;
-		}
-		else
-		{
-			cnt++;
-			prev = arr[i];
-		}
-	}
-	ans = max(ans,cnt);
-	pin(ans);
-}	
 
+    string s;
+    cin>>s;
+int     n = s.size();
+    rep(i,n)
+    {
+        int x = s[i]-'0';
+        dp[i][x%8]=1;
+    }
+    rep(j,8)
+    {
+        forup(i,1,n)
+        {
+
+            dp[i][(j*10+s[i]-'0')%8] = max(dp[i][(j*10+s[i]-'0')%8],dp[i-1][j]);
+            dp[i][(j*10)%8] = max(dp[i][(j*10)%8],dp[i-1][j]);
+        }
+    }
+    rep(i,n)
+    {
+        rep(j,8)
+        {
+            pis(dp[i][j]);
+        }
+        pnl();
+    }
+
+}
