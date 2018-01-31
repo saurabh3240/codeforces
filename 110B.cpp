@@ -59,54 +59,21 @@ typedef pair<int,int> pii;
 #define INF 1000000000
 #define ull unsigned long long
 using namespace std;
-ull mod_pow(ull num, ull pow, ull mod)
-{
-    ull test,n = num;
-    for(test = 1; pow; pow >>= 1)
-    {
-        if (pow & 1)
-            test = ((test % mod) * (n % mod)) % mod;
-        n = ((n % mod) * (n % mod)) % mod;
-    }
-    return test; /* note this is potentially lossy */
-}
-//while((getchar())!='\n'); //buffer clear
-ll gcd(ll a,ll b)
-{	ll r;
-	while(b)
-	{	r= a%b;a = b; b = r;
-	}
-	return a;
-}
-int dp[102][8];
+vector<int> edges[1000005];
+int visited[1000005];
+double p=1;
+double d = 0;
+double ans = 0;
 
 int main()
 {
-
-    string s;
-    cin>>s;
-int     n = s.size();
+    int n;
+    gi(n);
+    char s[n+1];
     rep(i,n)
     {
-        int x = s[i]-'0';
-        dp[i][x%8]=1;
+        s[i]=i%4+'a';
     }
-    rep(j,8)
-    {
-        forup(i,1,n)
-        {
-
-            dp[i][(j*10+s[i]-'0')%8] = max(dp[i][(j*10+s[i]-'0')%8],dp[i-1][j]);
-            dp[i][(j*10)%8] = max(dp[i][(j*10)%8],dp[i-1][j]);
-        }
-    }
-    rep(i,n)
-    {
-        rep(j,8)
-        {
-            pis(dp[i][j]);
-        }
-        pnl();
-    }
-
+    s[n]='\0';
+    cout<<s<<endl;
 }

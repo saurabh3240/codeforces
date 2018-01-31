@@ -20,29 +20,28 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
-#include<unordered_map>
 #include <string>
 #include <cassert>
- 
+
 using namespace std;
 typedef long long LL;
 typedef pair<int,int> pii;
- 
+
 #define forup(i,a,b) for(int i=a; i<b; ++i)
 #define fordn(i,a,b) for(int i=a; i>b; --i)
 #define rep(i,a) for(int i=0; i<a; ++i)
- 
+
 #define dforup(i,a,b) for(i=a; i<b; ++i)
 #define dfordn(i,a,b) for(i=a; i>b; --i)
 #define drep(i,a) for(i=0; i<a; ++i)
- 
+
 #define slenn(s,n) for(n=0; s[n]!=13 and s[n]!=0; ++n);s[n]=0
- 
+
 #define gi(x) scanf("%d",&x)
 #define gl(x) scanf("%lld",&x)
 #define gd(x) scanf("%lf",&x)
 #define gs(x) scanf("%s",x)
- 
+
 #define pis(x) printf("%d ",x)
 #define pin(x) printf("%d\n",x)
 #define pls(x) printf("%lld ",x)
@@ -50,7 +49,7 @@ typedef pair<int,int> pii;
 #define pds(x) printf("%.12f ",x)
 #define pdn(x) printf("%.12f\n",x)
 #define pnl() printf("\n")
- 
+
 #define fs first
 #define sc second
 #define ll long long
@@ -60,6 +59,7 @@ typedef pair<int,int> pii;
 #define INF 1000000000
 #define ull unsigned long long
 using namespace std;
+
 ull mod_pow(ull num, ull pow, ull mod)
 {
     ull test,n = num;
@@ -72,43 +72,60 @@ ull mod_pow(ull num, ull pow, ull mod)
     return test; /* note this is potentially lossy */
 }
 //while((getchar())!='\n'); //buffer clear
+
 ll gcd(ll a,ll b)
-{	ll r;
-	while(b)
-	{	r= a%b;a = b; b = r;
-	}
-	return a;
+{
+    ll r;
+    while(b)
+    {
+        r = a%b;
+        a = b;
+        b = r;
+    }
+    return a;
 }
 
+int dp[5000];
 int main()
-{	
+{
+    int n,a,b,c;
+    gi(n);
+    gi(a);
+    gi(b);
+    gi(c);
+    dp[a]=1;
+    dp[b]=1;
+    dp[c]=1;
+    for(int i = 1;i<=n;i++)
+    {
+        if(i>=a)
+        {
+            int j= i-a;
+//            pis(i);pis(a);pis(j) ;pis(dp[i]);
+            if(dp[j]>0)
+                dp[i]= max(dp[i],dp[j]+dp[a]);
+//            pin(dp[i]);
+        }
+        if(i>=b)
+        {
+            int j= i-b;
+//            pis(i);pis(b);pis(j); pis(dp[i]);
+            if(dp[j]>0)
 
-	ll node[2][4];
-	ll n;
-	gl(n);
-	node[1][0]=1ll;
-	node[1][1]=0ll;
-	node[1][2]=0ll;
-	node[1][3]=0ll;
-	rep(i,n)
-	{
-		int x = i%2;
-		int y = 1-x;
+            dp[i]= max(dp[i],dp[j]+dp[b]);
+//            pin(dp[i]);
+        }
+        if(i>=c)
+        {
+            int j= i-c;
+//            pis(i);pis(c);pis(j) ;pis(dp[i]);
 
-		node[x][0] =node[y][1]+node[y][2]+node[y][3];
-		node[x][0]%=MOD;
-		
-		node[x][1] =node[y][2]+node[y][3]+node[y][0];
-		node[x][1]%=MOD;
-		
-		node[x][2] =node[y][3]+node[y][0]+node[y][1];
-		node[x][2]%=MOD;
-		
-		node[x][3] =node[y][0]+node[y][1]+node[y][2];
-		node[x][3]%=MOD	;
-	}
-	cout<<node[(n-1)%2][0]<<endl;
-
-	
+            if(dp[j]>0)
+                dp[i]= max(dp[i],dp[j]+dp[c]);
+//            pin(dp[i]);
+        }
+    }
+    // forup(i,1,n+1)
+    // {    pis(i);pin(dp[i]);}
+    pin(dp[n]);
 }
-
