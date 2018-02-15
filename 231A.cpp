@@ -59,99 +59,39 @@ typedef pair<int,int> pii;
 #define INF 1000000000
 #define ull unsigned long long
 using namespace std;
+ull mod_pow(ull num, ull pow, ull mod)
+{
+    ull test,n = num;
+    for(test = 1; pow; pow >>= 1)
+    {
+        if (pow & 1)
+            test = ((test % mod) * (n % mod)) % mod;
+        n = ((n % mod) * (n % mod)) % mod;
+    }
+    return test; /* note this is potentially lossy */
+}
+//while((getchar())!='\n'); //buffer clear
+ll gcd(ll a,ll b)
+{	ll r;
+	while(b)
+	{	r= a%b;a = b; b = r;
+	}
+	return a;
+}
 
-int dp[8][102];
-int bt[8][102];
 int main()
 {
-  string s;
-  cin>>s;
-  int n = s.size();
-  rep(i,n)
-  { int x = s[i]-'0';
-    dp[x%8][i]=1;
-    bt[x%8][i]=-1;  //1 means no backpointer
-  }
-  forup(i,1,n)
-  {
-    rep(j,8)
+	int n,a=0;
+    gi(n);
+    rep(i,n)
     {
-      int x = s[i]-'0';
-      if(dp[j][i-1]==1)
-      {
-        int z = 10*j+x;
-        if(dp[z][i]!=1)
-        {
-          dp[z%8][i]=1;
-          bt[z%8][i]=j;
+        int c=0,x;
+        rep(j,3)
+        {    gi(x);
+            c+=x;
         }
-
-        if(dp[j][i]!=1)
-        {
-            dp[j][i]=1;
-            bt[j][i]=-2;   // -2 skip
-        }
-      }
+        if(c>=2)
+            a++;
     }
-  }
-
-// backtrack
-  std::vector<char> v;
-  rep(i,n)
-  {
-    if(dp[0][i]==1)
-    {
-      int a =0;
-      for(int b = i; b>=0;b--)
-      {
-         if(bt[a][b]==-2)
-         {
-           //do not include
-         }
-         else if(bt[a][b]==-1)
-         {
-           v.pb(s[b]);
-           break;
-         }
-         else
-         {
-           v.pb(s[b]);
-           a = bt[a][b];
-         }
-      }
-      break;
-    }
-  }//1231
-  // rep(i,8)
-  //   {
-  //     rep(j,n)
-  //     {
-  //        pis(dp[i][j]);
-  //     }
-  //     pnl();
-  //   }
-  //   pnl();
-  //   rep(i,8)
-  //     {
-  //       rep(j,n)
-  //       {
-  //          pis(bt[i][j]);
-  //       }
-  //       pnl();
-  //     }
-
-  int z = v.size();
-  if(v.size()==0)
-    cout<<"NO"<<endl;
-  else
-  {
-    cout<<"YES"<<endl;
-    rep(i,v.size())
-    {
-      cout<<v[z-i-1];
-    }
-
-  }
-
-
+    pin(a);
 }
