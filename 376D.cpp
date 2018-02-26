@@ -19,7 +19,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
-#include<unordered_map>
 #include <string>
 #include <cassert>
 
@@ -59,35 +58,65 @@ typedef pair<int,int> pii;
 #define INF 1000000000
 #define ull unsigned long long
 using namespace std;
-ull mod_pow(ull num, ull pow, ull mod)
+int n,m;
+char s[5002];
+int  dp[5002][5002];
+int dp2[5002][5002];
+
+void preprocess(int i)
 {
-    ull test,n = num;
-    for(test = 1; pow; pow >>= 1)
+    char prev='0';
+    int run=0;
+    rep(j,m)
     {
-        if (pow & 1)
-            test = ((test % mod) * (n % mod)) % mod;
-        n = ((n % mod) * (n % mod)) % mod;
+        if(s[j]=='1'&& prev=='1')
+        {
+            dp[i][j]=++run;
+        }
+        else if(s[j]=='1')
+        {
+            dp[i][j]=1;
+            run = 1;
+            prev = '1';
+        }
+        else if(s[j]=='0')
+        {
+            run=0;
+        }
+        dp2[dp[i][j]][j]++;
     }
-    return test; /* note this is potentially lossy */
 }
-//while((getchar())!='\n'); //buffer clear
-ll gcd(ll a,ll b)
-{	ll r;
-	while(b)
-	{	r= a%b;a = b; b = r;
-	}
-	return a;
-}
-arr[5002][5002];
-dp[5002][5002];
 int main()
 {
-    int n,m;
-    string s;
+    gi(n);
+    gi(m);
     rep(i,n)
     {
-        cin>>s;
-        // process
-        
+        scanf("%s",s);
+        preprocess(i);
     }
+    int ans =0;
+    // for each column
+
+
+    rep(i,m)
+    {
+        // rep(j,n)
+        // {
+        //     if(dp[j][i]!=0)
+        //         dp2[dp[j][i]][i]++;
+        //     //    pls(dp[j][i]);
+        // }
+    //    cout<<endl;
+        int x=0;
+        for(int k=m;k>=0;k--)
+        {
+            x+=dp2[k][i];
+            ans =max(ans,k*x);
+        }
+    ///    pis(i);
+    //    pin(ans);
+
+    }
+    pin(ans);
 }
