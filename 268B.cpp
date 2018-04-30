@@ -1,3 +1,4 @@
+
 #include <vector>
 #include <list>
 #include <map>
@@ -12,7 +13,7 @@
 #include <utility>
 #include <string.h>
 #include <sstream>
-#include <iostream> 
+#include <iostream>
 #include <iomanip>
 #include <cstdio>
 #include <cmath>
@@ -58,65 +59,34 @@ typedef pair<int,int> pii;
 #define INF 1000000000
 #define ull unsigned long long
 using namespace std;
-int n,m;
-char s[5002];
-int  dp[5002][5002];
-int dp2[5002][5002];
+vector<int> edges[1000005];
+int visited[1000005];
+double p=1;
+double d = 0;
+double ans = 0;
 
-void preprocess(int i)
-{
-    char prev='0';
-    int run=0;
-    rep(j,m)
-    {
-        if(s[j]=='1'&& prev=='1')
-        {
-            dp[i][j]=++run;
-        }
-        else if(s[j]=='1')
-        {
-            dp[i][j]=1;
-            run = 1;
-            prev = '1';
-        }
-        else if(s[j]=='0')
-        {
-            run=0;
-        }
-        dp2[dp[i][j]][j]++;
-    }
-}
 int main()
 {
+    int n;
+    ll a =1;
+    ll b =1;
+    ll c=1;
     gi(n);
-    gi(m);
-    rep(i,n)
+    ll ans=0;
+    if(n==1)
     {
-        scanf("%s",s);
-        preprocess(i);
+        pin(1);
+        return 0;
     }
-    int ans =0;
-    // for each column
-
-
-    rep(i,m)
+    rep(i,n-1)
     {
-        // rep(j,n)
-        // {
-        //     if(dp[j][i]!=0)
-        //         dp2[dp[j][i]][i]++;
-        //     //    pls(dp[j][i]);
-        // }
-    //    cout<<endl;
-        int x=0;
-        for(int k=m;k>=0;k--)
-        {
-            x+=dp2[k][i];
-            ans =max(ans,k*x);
-        }
-    ///    pis(i);
-    //    pin(ans);
+        // cout<<a<<" "<<b<<" "<<c<<endl;
+        ans = a+b+c;
+        a++;
+        b = ans;
+        c = c+i+1;
 
     }
-    pin(ans);
+    pln(ans);
+
 }
