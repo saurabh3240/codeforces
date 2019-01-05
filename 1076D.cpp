@@ -56,109 +56,94 @@ typedef pair<int,int> pii;
 #define pb push_back
 #define MOD 1000000007
 #define limit 10000005
-#define INF 100000000000000000
 #define ull unsigned long long
 #define BL 24
 using namespace std;
 int gmask =0;
 typedef vector<int> vi;
 typedef vector<ll> vl;
-
+const ll INF =  1e18 +9LL;
 typedef pair<ll,ll> pll;
 typedef vector< pll > vll;
 
 typedef pair<int,int> pii;
 typedef vector< pii > vii;
 
+int n,e,k;
 
-vll *G ,*GG;   // Graph
-vl Dist;  // for storing the distance of every other node from source.
-/*==========================================*/
+vector< pair<int,int> > T; // tree
+vector< pair< pair<int,ll> , int> > G[300005];
+ //
+ll dist[300005];
+bool vis[300005];
 
-int edgex[300005];
-void Dijkstra(int source, int N)
+pair<int,int> P[300005];
+void Dijistra(int s)
 {
-    priority_queue<pll, vector<pll>, greater<pll> > Q;   // min heap
-    Dist.assign(N,INF);
-    Dist[source] = 0;
-    Q.push({0,source});
-    while(!Q.empty()){
-        int u = Q.top().second;
-        Q.pop();
-        for(auto &c : G[u]){
-            ll v = c.first;
-            ll w = c.second;
-            // cout<<"v:"<<v<<" "<<Dist[v]<<" u:"<<u<<" "<<Dist[u]<<" w:"<<w<<" condition "<<Dist[u]+w<<endl;
-            if(Dist[v] > Dist[u]+w){
-              // cout<<"change v:"<<v<<" "<<Dist[v]<<" u:"<<u<<" "<<Dist[u]<<" w:"<<w<<" condition "<<Dist[u]+w<<endl;
-                Dist[v] = Dist[u]+w;
-                edgex[v]=u;
-                // cout<<"changed to "<<Dist[v]<<endl;
-                Q.push({Dist[v],v});
-
-            }
-        }
-    }
-}
-
-map<pair<ll,ll> ,ll > edge_map;
-int visited[3000005];
-int rem;
-vector<int> ans;
-void dfs(int root)
-{
-    // cout<<root<<" rem: "<<rem<<endl;
-    if(rem==0)
-    return;
-    visited[root]=1;
-    for(auto &c : GG[root])
-    {
-      int v = c.first;
-      if(!visited[v])
+  for(int i=0;i<=n;i++)
+    dist[i] = INF;
+  dist[s]=0;
+  priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<pair<ll,int> > > Q;
+  Q.push({0ll,s});
+  while(!Q.empty())
+  {
+      int u = Q.top().sc;
+      Q.pop();
+      for(auto v:G[u])
       {
-        ans.pb(edge_map[make_pair(root,v)]);
-          rem--;
-        dfs(v);
+
+        // v.fs.fs  = second node
+        // v.fs.sc =  second node weight
+          if(dist[v.fs.fs]> dist[u]+ v.fs.sc)
+          {
+            dist[v.fs.fs] = dist[u] + v.fs.sc;
+            P[v.fs.fs] = {u,v.sc};
+            // p[v.fs.fs]  = {u, v.}
+            Q.push({dist[v.fs.fs],v.fs.fs});
+          }
       }
-      if(rem==0)
-        return;
-    }
-
-
+  }
 }
+
+
+
+
 int main()
 {
-  int n,e,k,u,v;
+  int u,v;
   ll w;
 
   gi(n);
   gi(e);
   gi(k);
-  G = new vll[n+1];
   rep(i,e)
   {
     gi(u);gi(v);gl(w);
-    G[u].pb({v,w});
-    G[v].pb({u,w});
-    edge_map[make_pair(u,v)]=i+1;
-    edge_map[make_pair(v,u)]=i+1;
-
+    G[u].pb({{v,w},i});
+    G[v].pb({{u,w},i});
   }
-  int source = 1;
-  Dijkstra(source,n+1);
+  Dijistra(1);
+for(int i=0;i<=n;i++)
+{
+  cout<<i<<" "<<P[i].fs<<" "<<P[i].sc<<endl;
+}
 
-  GG = new vll[n+1];
-  rem = k;
-  for(int i=2;i<=n;i++)
-  {
-    int v = edgex[i];
-    GG[v].pb({i,1});
-    GG[i].pb({v,1});
-    // cout<<i<<" --"<<v<<endl;
-  }
-  dfs(1);
-  pin(ans.size());
-  rep(i,ans.size())
-    pis(ans[i]);
+
+  // int source = 1;
+  // Dijkstra(source,n+1,k);
+  //
+  // GG =  new vector<pair<int,ll> > [n+1];
+  // rem = k;
+  // for(int i=2;i<=n;i++)
+  // {
+  //   int v = edgex[i];
+  //   GG[v].pb({i,1});
+  //   GG[i].pb({v,1});
+  //   // cout<<i<<" --"<<v<<endl;
+  // }
+  // dfs(1);
+  // pin(ans.size());
+  // rep(i,ans.size())
+  //   pis(ans[i]);
 
 }
